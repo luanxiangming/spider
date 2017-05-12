@@ -1,4 +1,3 @@
-# spider(selenium, ChromeDrive/phantomjs, PyQuery)
 
 # Binary preparation(Download and put them unto $PATH)
 ChromeDrive: https://sites.google.com/a/chromium.org/chromedriver/downloads</br>
