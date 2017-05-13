@@ -60,8 +60,8 @@ def get_products():
 			'shop': item.find('.p-shop').text(),
 
 		}
-		# print(product)
-		save_to_mysql(product)
+		print(product)
+		# save_to_mysql(product)
 
 def search():
 	print("---搜索关键字: " + KEY_WORD_JD)

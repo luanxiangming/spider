@@ -7,5 +7,6 @@ PhantomJS: http://phantomjs.org/</br>
 # Doc reference
 Selenium with Python: http://selenium-python.readthedocs.io/</br>
 PhantomJS: http://phantomjs.org/api/</br>
+pyquery: http://pyquery.readthedocs.io/en/latest/</br>
 PyMySQL: https://github.com/PyMySQL/PyMySQL</br>
 
