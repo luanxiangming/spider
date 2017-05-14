@@ -38,8 +38,8 @@ def get_products():
 			'shop': item.find('.shop').text(),
 			'location': item.find('.location').text(),
 		}
-		# print(product)
-		save_to_mysql(product)
+		print(product)
+		# save_to_mysql(product)
 
 
 def search():
