@@ -1,8 +1,11 @@
 import unittest
+
 from selenium import webdriver
+from selenium.webdriver.common.alert import Alert
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.select import Select
-import page_taobao
+
+from taobao import page_taobao as page
 
 
 class TestTaobao(unittest.TestCase):
@@ -41,11 +44,12 @@ class TestTaobao(unittest.TestCase):
 		for handle in driver.window_handles:
 			driver.switch_to.window(handle)
 
-	def test_popup(self):
+	def Test_popup(self):
 		driver = self.driver
 		driver.get("http://www.qq.com/")
 		driver.find_element_by_class_name("login").click()
-		driver.switch_to_alert()
+		# driver.switch_to.alert()
+		print(Alert(driver).text)
 		driver.find_element_by_id('switcher_plogin').click()
 
 	def test_forward_back(self):
@@ -65,13 +69,13 @@ class TestTaobao(unittest.TestCase):
 		driver.get("http://www.taobao.com")
 
 		# Load the main page. In this case the home page of taobao.com.
-		main_page = page_taobao.MainPage(driver)
+		main_page = page.MainPage(driver)
 		# Checks if the word "淘宝" is in title
 		assert main_page.is_title_matches(), "taobao.com title not match"
 		# Sets the text of search textbox to "手机"
 		main_page.search_text_element = "手机"
 		main_page.click_go_button()
-		search_results_page = page_taobao.SearchResultsPage(driver)
+		search_results_page = page.SearchResultsPage(driver)
 		assert search_results_page.is_results_found(), "No results found"
 
 

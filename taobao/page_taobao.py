@@ -1,5 +1,7 @@
 from element import BasePageElement
-from locators import MainPageLocators
+
+from taobao.locators import MainPageLocators
+
 
 class SeachTextElement(BasePageElement):
 	"""This class gets the search text from the specified locator"""
