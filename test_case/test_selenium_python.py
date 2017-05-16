@@ -1,7 +1,10 @@
 import unittest
-
-from selenium_python import page_selenium_python as page
+import sys
 from selenium import webdriver
+
+sys.path.append("..")
+from page import page_selenium_python as page
+
 from config import *
 
 class TestSeleniumPython(unittest.TestCase):
@@ -15,10 +18,11 @@ class TestSeleniumPython(unittest.TestCase):
 		assert 'Selenium with Python' in driver.page_source
 		main_page = page.MainPage(driver)
 		main_page.repeat_next()
+		print(driver.current_url)
 
 	def tearDown(self):
 		self.driver.close()
 
-	if __name__ == '__main__':
-		test_repeat_next()
-
+if __name__ == '__main__':
+	print("\n__name__ == '__main__'")
+	unittest.main()

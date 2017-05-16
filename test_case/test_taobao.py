@@ -1,11 +1,10 @@
 import unittest
 
+from page import page_taobao as page
 from selenium import webdriver
 from selenium.webdriver.common.alert import Alert
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.select import Select
-
-from taobao import page_taobao as page
 
 
 class TestTaobao(unittest.TestCase):
@@ -44,7 +43,8 @@ class TestTaobao(unittest.TestCase):
 		for handle in driver.window_handles:
 			driver.switch_to.window(handle)
 
-	def Test_popup(self):
+	@unittest.skip("skip popup test")
+	def test_popup(self):
 		driver = self.driver
 		driver.get("http://www.qq.com/")
 		driver.find_element_by_class_name("login").click()
@@ -82,6 +82,7 @@ class TestTaobao(unittest.TestCase):
 	def tearDown(self):
 		self.driver.close()
 
-	if __name__ == '__main__':
-		test_dropdown()
+if __name__ == '__main__':
+	print("\n__name__ == '__main__'")
+	unittest.main()
 

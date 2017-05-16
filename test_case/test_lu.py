@@ -1,8 +1,9 @@
 import unittest
-
 from selenium import webdriver
+import sys
 
-from lu import page_lu as page
+sys.path.append("..")
+from page import page_lu as page
 
 
 class TestLu(unittest.TestCase):
@@ -10,6 +11,7 @@ class TestLu(unittest.TestCase):
 		self.driver = webdriver.Chrome()
 		self.driver.get("http://www.lu.com/")
 
+	# @unittest.skip("skip test_login")
 	def test_login(self):
 		driver = self.driver
 		assert "陆金所" in driver.title
@@ -20,7 +22,7 @@ class TestLu(unittest.TestCase):
 		# assert "请填写验证码" in driver.page_source
 		main_page.verify_login()
 
-
+	# @unittest.skip("skip test_my_account")
 	def test_my_account(self):
 		driver = self.driver
 		assert "陆金所" in driver.title
@@ -36,9 +38,16 @@ class TestLu(unittest.TestCase):
 		account_page.check_balance()
 
 	def tearDown(self):
+		pass
 
-		self.driver.close()
+def suite():
+	suite = unittest.TestSuite()
+	suite.addTest(TestLu('test_my_account'))
+	return suite
 
-	if __name__ == '__main__':
-		test_login()
-		test_my_account()
+if __name__ == '__main__':
+	print("\n__name__ == '__main__'")
+	runner = unittest.TextTestRunner(verbosity=2)
+	runner.run(suite())
+# suite = unittest.TestLoader().loadTestsFromTestCase(TestLu)
+# unittest.TextTestRunner(verbosity=2).run(suite)

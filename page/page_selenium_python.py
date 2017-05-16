@@ -19,7 +19,7 @@ class MainPage(BasePage):
 				)
 				pages = self.driver.find_elements(By.CSS_SELECTOR, '.current.reference.internal')
 				for page in pages:
-					print(page.get_attribute('text'))
+					print("\n" + page.get_attribute('text'))
 				next_button.click()
 			except NoSuchElementException:
 				print("End of page")

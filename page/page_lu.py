@@ -11,6 +11,7 @@ class BasePage(object):
 
 
 class MainPage(BasePage):
+
 	def goto_login_page(self):
 		login = self.wait.until(
 			EC.element_to_be_clickable(
@@ -31,6 +32,10 @@ class MainPage(BasePage):
 
 	def get_cookies(self):
 		return self.driver.get_cookies()
+
+	def set_cookies(self):
+		for cookie in self.get_cookies():
+			self.driver.add_cookie(cookie)
 
 class LoginPage(BasePage):
 	def authenticate(self):
