@@ -32,6 +32,7 @@ class TestLu(unittest.TestCase):
 		login_page.authenticate()
 		# assert "请填写验证码" in driver.page_source
 		main_page.verify_login()
+		main_page = page.MainPage(driver)
 		main_page.goto_account_page()
 		account_page = page.AccountPage(driver)
 		account_page.skip_guide()
@@ -40,14 +41,9 @@ class TestLu(unittest.TestCase):
 	def tearDown(self):
 		pass
 
-def suite():
-	suite = unittest.TestSuite()
-	suite.addTest(TestLu('test_my_account'))
-	return suite
 
 if __name__ == '__main__':
 	print("\n__name__ == '__main__'")
-	runner = unittest.TextTestRunner(verbosity=2)
-	runner.run(suite())
-# suite = unittest.TestLoader().loadTestsFromTestCase(TestLu)
-# unittest.TextTestRunner(verbosity=2).run(suite)
+	unittest.main()
+
+

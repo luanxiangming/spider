@@ -10,3 +10,6 @@ SERVICE_ARGS = ['--load-images=false', '--disk-cache=true']
 
 KEY_WORD_TAOBAO = '美食'
 KEY_WORD_JD = '电视'
+
+REPORT_DIR = 'TestResult'
+REPORT_FILE = 'report.html'
