@@ -9,8 +9,8 @@ from config import *
 
 class TestSeleniumPython(unittest.TestCase):
 	def setUp(self):
-		# self.driver = webdriver.Chrome()
-		self.driver = webdriver.PhantomJS(service_args=SERVICE_ARGS)
+		self.driver = webdriver.Chrome()
+		# self.driver = webdriver.PhantomJS(service_args=SERVICE_ARGS)
 		self.driver.get("http://selenium-python.readthedocs.io/")
 
 	def test_repeat_next(self):

@@ -1,14 +1,16 @@
 import unittest
 import os
 import HTMLTestRunner
-from test_case import test_lu, test_taobao
+from test_case import test_lu, test_taobao, test_selenium_python
 from config import REPORT_DIR, REPORT_FILE
 
 def create_suite():
 	suite = unittest.TestSuite()
 	# suite = unittest.TestLoader().loadTestsFromTestCase(test_lu.TestLu)
-	suite.addTest(test_lu.TestLu('test_my_account'))
-	suite.addTest(test_taobao.TestTaobao('test_search'))
+	# suite = unittest.TestLoader().loadTestsFromModule(test_taobao)
+	suite.addTest(test_taobao.TestTaobao('test_search_in_taobao'))
+	suite.addTest(test_taobao.TestTaobao('test_login'))
+	print(str(suite.countTestCases()) + " tests in the TestSuite")
 	return suite
 
 

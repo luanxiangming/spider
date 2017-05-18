@@ -19,19 +19,12 @@ class TestLu(unittest.TestCase):
 		main_page.goto_login_page()
 		login_page = page.LoginPage(driver)
 		login_page.authenticate()
-		# assert "请填写验证码" in driver.page_source
 		main_page.verify_login()
 
 	# @unittest.skip("skip test_my_account")
 	def test_my_account(self):
 		driver = self.driver
-		assert "陆金所" in driver.title
-		main_page = page.MainPage(driver)
-		main_page.goto_login_page()
-		login_page = page.LoginPage(driver)
-		login_page.authenticate()
-		# assert "请填写验证码" in driver.page_source
-		main_page.verify_login()
+		self.test_login()
 		main_page = page.MainPage(driver)
 		main_page.goto_account_page()
 		account_page = page.AccountPage(driver)

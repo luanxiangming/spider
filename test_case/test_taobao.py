@@ -1,5 +1,5 @@
 import unittest
-
+import config
 from page import page_taobao as page
 from selenium import webdriver
 from selenium.webdriver.common.alert import Alert
@@ -10,8 +10,9 @@ from selenium.webdriver.support.select import Select
 class TestTaobao(unittest.TestCase):
 	def setUp(self):
 		self.driver = webdriver.Chrome()
-		# self.driver = webdriver.PhantomJS(service_args=SERVICE_ARGS)
+		# self.driver = webdriver.PhantomJS(service_args=config.SERVICE_ARGS)
 
+	@unittest.skip("skip search test")
 	def test_search(self):
 		driver = self.driver
 		driver.get("http://www.taobao.com")
@@ -21,6 +22,7 @@ class TestTaobao(unittest.TestCase):
 		elem.send_keys(Keys.RETURN)
 		assert "No results found" not in driver.page_source
 
+	@unittest.skip("skip dropdown test")
 	def test_dropdown(self):
 		driver = self.driver
 		driver.get("https://www.w3.org/")
@@ -36,6 +38,7 @@ class TestTaobao(unittest.TestCase):
 			print(select.options[i].get_attribute('value'))
 			select.select_by_index(i)
 
+	@unittest.skip("skip switch_window test")
 	def test_switch_window(self):
 		driver = self.driver
 		driver.get("http://www.qq.com/")
@@ -52,6 +55,7 @@ class TestTaobao(unittest.TestCase):
 		print(Alert(driver).text)
 		driver.find_element_by_id('switcher_plogin').click()
 
+	@unittest.skip("skip forward_back test")
 	def test_forward_back(self):
 		driver = self.driver
 		driver.get("http://www.baidu.com")
@@ -78,6 +82,15 @@ class TestTaobao(unittest.TestCase):
 		search_results_page = page.SearchResultsPage(driver)
 		assert search_results_page.is_results_found(), "No results found"
 
+	def test_login(self):
+		driver = self.driver
+		driver.get("http://www.taobao.com")
+		main_page = page.MainPage(driver)
+		main_page.goto_login_page()
+		login_page = page.LoginPage(driver)
+		login_page.password_login()
+		login_page.authenticate()
+		main_page.verify_login()
 
 	def tearDown(self):
 		self.driver.close()
