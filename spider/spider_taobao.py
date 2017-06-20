@@ -1,13 +1,15 @@
+import os
 import re
 
+import pymysql.cursors
+from pyquery import PyQuery as pq
 from selenium import webdriver
 from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-from pyquery import PyQuery as pq
+from selenium.webdriver.support.ui import WebDriverWait
+
 from config import *
-import pymysql.cursors
 
 # Connect to the database
 conn = pymysql.connect(host=MYSQL_URL,
@@ -25,105 +27,107 @@ wait = WebDriverWait(browser, 10)
 
 
 def get_products():
-	wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, '#mainsrp-itemlist .items .item')))
-	html = browser.page_source
-	doc = pq(html)
-	items = doc('#mainsrp-itemlist .items .item').items()
-	for item in items:
-		product = {
-			'image': item.find('.pic .img').attr('src'),
-			'price': item.find('.price').text(),
-			'deal': item.find('.deal-cnt').text()[:-3],
-			'title': item.find('.title').text(),
-			'shop': item.find('.shop').text(),
-			'location': item.find('.location').text(),
-		}
-		print(product)
-		# save_to_mysql(product)
+    wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, '#mainsrp-itemlist .items .item')))
+    html = browser.page_source
+    doc = pq(html)
+    items = doc('#mainsrp-itemlist .items .item').items()
+    for item in items:
+        product = {
+            'image': item.find('.pic .img').attr('src'),
+            'price': item.find('.price').text(),
+            'deal': item.find('.deal-cnt').text()[:-3],
+            'title': item.find('.title').text(),
+            'shop': item.find('.shop').text(),
+            'location': item.find('.location').text(),
+        }
+        print(product)
+        save_to_mysql(product)
 
 
 def search():
-	print("---搜索关键字: " + KEY_WORD_TAOBAO)
-	try:
-		browser.get('https://www.taobao.com')
+    print("---搜索关键字: " + KEY_WORD_TAOBAO)
+    print('os.path: ' + str(os.path))
+    try:
+        browser.get('https://www.taobao.com')
 
-		input = wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, '#q')))
-		submit = wait.until(
-			EC.element_to_be_clickable((By.CSS_SELECTOR, '#J_TSearchForm > div.search-button > button'))
-		)
-		input.send_keys(KEY_WORD_TAOBAO)
-		submit.click()
-		total = wait.until(
-			EC.presence_of_element_located((By.CSS_SELECTOR, '#mainsrp-pager > div > div > div > div.total'))
-		)
-		get_products()
-		return total.text
-	except TimeoutException:
-		return search()
+        input = wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, '#q')))
+        submit = wait.until(
+            EC.element_to_be_clickable((By.CSS_SELECTOR, '#J_TSearchForm > div.search-button > button'))
+        )
+        input.send_keys(KEY_WORD_TAOBAO)
+        submit.click()
+        total = wait.until(
+            EC.presence_of_element_located((By.CSS_SELECTOR, '#mainsrp-pager > div > div > div > div.total'))
+        )
+        get_products()
+        return total.text
+    except TimeoutException:
+        return search()
 
 
 def next_page(page_number):
-	print("---开始翻页: " + str(page_number))
-	try:
-		input = wait.until(
-			EC.presence_of_element_located((By.CSS_SELECTOR, '#mainsrp-pager > div > div > div > div.form > input'))
-		)
-		confirm = wait.until(
-			EC.element_to_be_clickable(
-				(By.CSS_SELECTOR, '#mainsrp-pager > div > div > div > div.form > span.btn.J_Submit'))
-		)
-		input.clear()
-		input.send_keys(page_number)
-		confirm.click()
-		wait.until(
-			EC.text_to_be_present_in_element(
-				(By.CSS_SELECTOR, '#mainsrp-pager > div > div > div > ul > li.item.active > span'), str(page_number))
-		)
-		get_products()
-	except TimeoutException:
-		next_page(page_number)
+    print("---开始翻页: " + str(page_number))
+    try:
+        input = wait.until(
+            EC.presence_of_element_located((By.CSS_SELECTOR, '#mainsrp-pager > div > div > div > div.form > input'))
+        )
+        confirm = wait.until(
+            EC.element_to_be_clickable(
+                (By.CSS_SELECTOR, '#mainsrp-pager > div > div > div > div.form > span.btn.J_Submit'))
+        )
+        input.clear()
+        input.send_keys(page_number)
+        confirm.click()
+        wait.until(
+            EC.text_to_be_present_in_element(
+                (By.CSS_SELECTOR, '#mainsrp-pager > div > div > div > ul > li.item.active > span'), str(page_number))
+        )
+        get_products()
+    except TimeoutException:
+        next_page(page_number)
 
 
 def save_to_mysql(result):
-	values = []
-	for k, v in sorted(result.items()):
-		values.append(v)
-	try:
-		with conn.cursor() as cursor:
-			sql = 'INSERT INTO ' + MYSQL_TABLE_TAOBAO + '(Deal,Image,Location,Price,Shop,Title) VALUES(%s,%s,%s,%s,%s,%s)'
-			cursor.execute(sql, values)
-		# connection is not autocommit by default. So you must commit to save your changes.
-		conn.commit()
-		with conn.cursor() as cursor:
-			sql = 'SELECT * FROM ' + MYSQL_TABLE_TAOBAO + ' WHERE ' \
-			                                              'Deal=%s AND ' \
-			                                              'Image=%s AND ' \
-			                                              'Location=%s AND ' \
-			                                              'Price=%s AND ' \
-			                                              'Shop=%s AND ' \
-			                                              'Title=%s'
-			cursor.execute(sql, values)
+    values = []
+    for k, v in sorted(result.items()):
+        values.append(v)
+    try:
+        with conn.cursor() as cursor:
+            sql = 'INSERT INTO ' + MYSQL_TABLE_TAOBAO + '(Deal,Image,Location,Price,Shop,Title) VALUES(%s,%s,%s,%s,%s,%s)'
+            cursor.execute(sql, values)
+        # connection is not autocommit by default. So you must commit to save your changes.
+        conn.commit()
+        with conn.cursor() as cursor:
+            sql = 'SELECT * FROM ' + MYSQL_TABLE_TAOBAO + ' WHERE ' \
+                                                          'Deal=%s AND ' \
+                                                          'Image=%s AND ' \
+                                                          'Location=%s AND ' \
+                                                          'Price=%s AND ' \
+                                                          'Shop=%s AND ' \
+                                                          'Title=%s'
+            cursor.execute(sql, values)
 
-			query = cursor.fetchone()
-			print(query)
-		# print("Save MYSQL SUCCESS.")
-	# cursor.close()
-	except Exception:
-		print("Save MYSQL FAIL.", result)
+            query = cursor.fetchone()
+            print(query)
+        # print("Save MYSQL SUCCESS.")
+    # cursor.close()
+    except Exception:
+        print("Save MYSQL FAIL.", result)
 
 
 def main():
-	try:
-		total = search()
-		total = int(re.compile('(\d+)').search(total).group(1))
-		for page_number in range(2, total + 1):
-			next_page(page_number)
-	except Exception:
-		print("ERROR!")
-	finally:
-		conn.close()
-		browser.close()
+    try:
+        total = search()
+        total = int(re.compile('(\d+)').search(total).group(0))
+        print("Total pages: " + str(total))
+        for page_number in range(2, total + 1):
+            next_page(page_number)
+    except Exception:
+        print("ERROR!")
+    finally:
+        conn.close()
+        browser.close()
 
 
 if __name__ == '__main__':
-	main()
+    main()

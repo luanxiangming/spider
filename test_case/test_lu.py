@@ -36,7 +36,4 @@ class TestLu(unittest.TestCase):
 
 
 if __name__ == '__main__':
-	print("\n__name__ == '__main__'")
 	unittest.main()
-
-

@@ -7,6 +7,7 @@ from page import page_selenium_python as page
 
 from config import *
 
+
 class TestSeleniumPython(unittest.TestCase):
 	def setUp(self):
 		self.driver = webdriver.Chrome()

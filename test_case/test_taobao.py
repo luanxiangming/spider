@@ -1,16 +1,18 @@
 import unittest
-import config
-from page import page_taobao as page
+
 from selenium import webdriver
 from selenium.webdriver.common.alert import Alert
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.select import Select
 
+from page import page_taobao as page
+
 
 class TestTaobao(unittest.TestCase):
 	def setUp(self):
 		self.driver = webdriver.Chrome()
-		# self.driver = webdriver.PhantomJS(service_args=config.SERVICE_ARGS)
+
+	# self.driver = webdriver.PhantomJS(service_args=config.SERVICE_ARGS)
 
 	@unittest.skip("skip search test")
 	def test_search(self):
@@ -66,8 +68,7 @@ class TestTaobao(unittest.TestCase):
 		driver.back()
 		driver.forward()
 
-
-	# A sample test class to show how page object works
+	""" A sample test class to show how page object works """
 	def test_search_in_taobao(self):
 		driver = self.driver
 		driver.get("http://www.taobao.com")
@@ -95,7 +96,7 @@ class TestTaobao(unittest.TestCase):
 	def tearDown(self):
 		self.driver.close()
 
+
 if __name__ == '__main__':
 	print("\n__name__ == '__main__'")
 	unittest.main()
-
