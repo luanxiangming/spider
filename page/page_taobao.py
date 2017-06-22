@@ -2,11 +2,11 @@ import time
 
 from selenium.webdriver import ActionChains
 from selenium.webdriver.support import expected_conditions as EC
-from selenium.webdriver.support.wait import WebDriverWait
 
 import auth
 from element import BasePageElement
 from locators import *
+from page.BasePage import BasePage
 
 
 class SearchTextElement(BasePageElement):
@@ -16,40 +16,29 @@ class SearchTextElement(BasePageElement):
     locator = 'q'
 
 
-class BasePage(object):
-    """Base class to initialize the base page that will be called from all pages"""
-    def __init__(self, driver):
-        self.driver = driver
-        self.wait = WebDriverWait(self.driver, 20)
-
-
 class MainPage(BasePage):
     """Home page action methods come here. i.e. taobao.com"""
     search_text_element = SearchTextElement()
 
-    def is_title_matches(self):
-        """Verifies that the hardcoded text "淘宝" appears in page title"""
-        return "淘宝" in self.driver.title
+    def __init__(self, browser='chrome'):
+        super().__init__(browser)
 
-    def click_go_button(self):
+    def click_search_button(self):
         """Triggers the search"""
-        elem = self.driver.find_element(*MainPageLocators.GO_BUTTON)
-        elem.click()
+        elem = self.waitUntilFindElement(MainPageLocators.SEARCH_BUTTON)
+        self.click(elem)
 
     def goto_login_page(self):
-        elem = self.wait.until(
-            EC.presence_of_element_located(
-                MainPageLocators.LOGIN
-            ))
-        elem.click()
+        elem = self.waitUntilFindElement(MainPageLocators.LOGIN)
+        self.click(elem)
+
+    def get_nick_name(self):
+        elem = self.waitUntilFindElement(MainPageLocators.USER_NICK)
+        return elem.text
 
     def verify_login(self):
         try:
-            elem = self.wait.until(
-                EC.presence_of_element_located(
-                    MainPageLocators.USER_NICK
-                )
-            )
+            elem = self.waitUntilFindElement(MainPageLocators.USER_NICK)
             print(elem.text)
         except Exception:
             print("Authentication Failure")
@@ -65,59 +54,43 @@ class SearchResultsPage(BasePage):
 
 class LoginPage(BasePage):
 
-    def password_login(self):
-        elem = self.wait.until(
-            EC.presence_of_element_located(
-                LoginPageLocators.PASSWORD_LOGIN
-            ))
-        elem.click()
+    def use_password_login(self):
+        elem = self.waitUntilFindElement(LoginPageLocators.PASSWORD_LOGIN)
+        self.click(elem)
+
+    def get_nick_name(self):
+        elem = self.waitUntilFindElement(MainPageLocators.USER_NICK)
+        return elem.text
 
     def authenticate(self):
-        username = self.wait.until(
-            EC.presence_of_element_located(
-                LoginPageLocators.USERNAME_INPUT
-            )
-        )
-        password = self.wait.until(
-            EC.presence_of_element_located(
-                LoginPageLocators.PASSWORD_INPUT
-            )
-        )
-        confirm = self.wait.until(
-            EC.element_to_be_clickable(
-                LoginPageLocators.LOGIN_BUTTON
-            )
-        )
+        username = self.waitUntilFindElement(LoginPageLocators.USERNAME_INPUT)
+        password = self.waitUntilFindElement(LoginPageLocators.PASSWORD_INPUT)
+        confirm = self.waitUntilFindElement(LoginPageLocators.LOGIN_BUTTON)
 
         username.clear()
-        username.send_keys(auth.TAOBAO_USER)
+        self.type(username, auth.TAOBAO_USER)
+
         password.clear()
-        password.send_keys(auth.TAOBAO_PASS)
+        self.type(password, auth.TAOBAO_PASS)
+
         time.sleep(2)
 
         block = self.is_element_visible(LoginPageLocators.AUTH_BLOCK)
         if block:
             print("出现滑动条")
-            actions = ActionChains(self.driver)
+            actions = ActionChains()
             # actions.click_and_hold(block)
             # actions.move_by_offset(298, 0)
-            actions.drag_and_drop_by_offset(self.driver.find_element(*LoginPageLocators.AUTH_BLOCK), 298, 0)
+            actions.drag_and_drop_by_offset(self.findElement(LoginPageLocators.AUTH_BLOCK), 298, 0)
             actions.perform()
             time.sleep(2)
-            if '验证通过' in self.driver.page_source:
+            if '验证通过' in self.page_source():
                 print("验证通过")
-                confirm.click()
+                self.click(confirm)
             else:
                 print("出错了")
         else:
             print("没有滑动条，直接登陆")
-            confirm.click()
+            self.click(confirm)
 
-    def is_element_visible(self, element):
-        try:
-            the_element = EC.visibility_of_element_located(element)
-            assert the_element(self.driver)
-            flag = True
-        except:
-            flag = False
-        return flag
+

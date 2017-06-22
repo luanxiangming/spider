@@ -1,11 +1,9 @@
-from selenium.webdriver.common.by import By
-
-
 class MainPageLocators(object):
     """A class for main page locators. All main page locators should come here"""
-    GO_BUTTON = (By.CLASS_NAME, 'btn-search')
-    LOGIN = (By.CSS_SELECTOR, '#J_SiteNavLogin > div.site-nav-menu-hd > div.site-nav-sign > a.h')
-    USER_NICK = (By.CSS_SELECTOR, '#J_SiteNavLogin > div.site-nav-menu-hd > div.site-nav-user > a.site-nav-login-info-nick')
+    SEARCH_BUTTON = ('CLASS_NAME', r'btn-search')
+    LOGIN = ('CSS_SELECTOR', r'#J_SiteNavLogin > div.site-nav-menu-hd > div.site-nav-sign > a.h')
+    USER_NICK = ('CSS_SELECTOR', r'#J_SiteNavLogin > div.site-nav-menu-hd > div.site-nav-user > a.site-nav-login-info-nick')
+    # USER_NICK = ('CLASS_NAME', r'site-nav-login-info-nick')
 
 
 class SearchResultsPageLocators(object):
@@ -14,9 +12,8 @@ class SearchResultsPageLocators(object):
 
 
 class LoginPageLocators(object):
-    AUTH_BLOCK = (By.ID, 'nc_1_n1z')
-    PASSWORD_LOGIN = (By.CSS_SELECTOR, '#J_QRCodeLogin > div.login-links > a.forget-pwd.J_Quick2Static')
-    USERNAME_INPUT = (By.NAME, 'TPL_username')
-    PASSWORD_INPUT = (By.NAME, 'TPL_password')
-    LOGIN_BUTTON = (By.ID, 'J_SubmitStatic')
-
+    AUTH_BLOCK = ('ID', 'nc_1_n1z')
+    PASSWORD_LOGIN = ('CSS_SELECTOR', r'#J_QRCodeLogin > div.login-links > a.forget-pwd.J_Quick2Static')
+    USERNAME_INPUT = ('NAME', 'TPL_username')
+    PASSWORD_INPUT = ('NAME', 'TPL_password')
+    LOGIN_BUTTON = ('ID', 'J_SubmitStatic')

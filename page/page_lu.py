@@ -3,15 +3,19 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 import auth
+from page.BasePage import BasePage
 
 
-class BasePage(object):
-    def __init__(self, driver):
-        self.driver = driver
-        self.wait = WebDriverWait(self.driver, 60)
+# class BasePage(object):
+#     def __init__(self, driver):
+#         self.driver = driver
+#         self.wait = WebDriverWait(self.driver, 60)
 
 
 class MainPage(BasePage):
+    def __init__(self, browser='chrome'):
+        super().__init__(browser)
+
     def goto_login_page(self):
         login = self.wait.until(
             EC.element_to_be_clickable(
