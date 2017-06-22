@@ -6,12 +6,6 @@ import auth
 from page.BasePage import BasePage
 
 
-# class BasePage(object):
-#     def __init__(self, driver):
-#         self.driver = driver
-#         self.wait = WebDriverWait(self.driver, 60)
-
-
 class MainPage(BasePage):
     def __init__(self, browser='chrome'):
         super().__init__(browser)

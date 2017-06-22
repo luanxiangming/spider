@@ -1,7 +1,6 @@
 import time
 
 from selenium.webdriver import ActionChains
-from selenium.webdriver.support import expected_conditions as EC
 
 import auth
 from element import BasePageElement
