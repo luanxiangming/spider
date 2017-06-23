@@ -6,9 +6,7 @@ import auth
 from element import BasePageElement
 from locators import *
 from page.BasePage import BasePage
-from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
-
 
 
 class SearchTextElement(BasePageElement):
@@ -113,16 +111,15 @@ class CheckinPage(BasePage):
         return elem.text
 
     def check_in(self):
-        print('成功签到')
-
-
-class OverlapPage(BasePage):
+        self.refresh()
+        if self.check_block():
+            print('成功签到')
 
     def close_block(self):
-        self.refresh()
         close = self.wait.until(
             EC.element_to_be_clickable(
-                (By.CSS_SELECTOR, '#ks-content-ks-component126 > div.coin-overlay-content > span'))
+                CheckinPageLocators.CLOSE
+            )
         )
         if close:
             print("签到出现滑动条")
@@ -130,14 +127,14 @@ class OverlapPage(BasePage):
 
     def check_block(self):
         flag = 0
-        time.sleep(10)
-        block = self.is_element_visible(OverlapPageLocators.BLOCK)
+        time.sleep(5)
+        block = self.is_element_visible(CheckinPageLocators.BLOCK)
         if block:
             print("签到出现滑动条")
             actions = ActionChains()
-            actions.click_and_hold(block)
-            actions.move_by_offset(298, 0)
-            # actions.drag_and_drop_by_offset(block, 280, 0)
+            # actions.click_and_hold(block)
+            # actions.move_by_offset(258, 0)
+            actions.drag_and_drop_by_offset(block, 258, 0)
             actions.perform()
             time.sleep(2)
             if '验证通过' in self.page_source():
@@ -149,3 +146,4 @@ class OverlapPage(BasePage):
             print("签到没有滑动条，直接签到")
             flag = 1
             return flag
+

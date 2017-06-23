@@ -2,7 +2,6 @@ import time
 import unittest
 
 from selenium import webdriver
-from selenium.webdriver.common.alert import Alert
 
 from page import page_taobao as page
 from utils import LogUtil
@@ -122,15 +121,18 @@ class TestTaobao(unittest.TestCase):
 	def test_checkin(self):
 		driver = self.driver
 		self.test_login(driver)
-		main_page = page.MainPage(driver)
-		main_page.open_checkin_page()
+		try:
+			main_page = page.MainPage(driver)
+			main_page.open_checkin_page()
 
-		overlap_page = page.OverlapPage(driver)
-		overlap_page.close_block()
-
-		checkin_page = page.CheckinPage(driver)
-		checkin_page.check_in()
-		assert '3640' in checkin_page.get_coin_balance()
+			checkin_page = page.CheckinPage(driver)
+			checkin_page.check_in()
+			assert '3640' in checkin_page.get_coin_balance()
+		except Exception as e:
+			self.testCaseInfo.errorinfo = repr(e)
+			LogUtil.log(('Got error: ' + repr(e)))
+		else:
+			self.testCaseInfo.result = 'Pass'
 
 
 if __name__ == '__main__':

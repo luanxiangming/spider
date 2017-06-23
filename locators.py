@@ -1,3 +1,5 @@
+from selenium.webdriver.common.by import By
+
 class MainPageLocators(object):
     """A class for main page locators. All main page locators should come here"""
     SEARCH_BUTTON = ('CLASS_NAME', r'btn-search')
@@ -22,8 +24,5 @@ class LoginPageLocators(object):
 
 class CheckinPageLocators(object):
     COIN = ('CSS_SELECTOR', r'#content > div.coin-layout > div.coin-wrapper > div.side-bar > div > div.coin-panel > div.tjb-wrapper.tjb-login > div.my-coin > p.lg-2.info.J_Coin > a')
-
-
-class OverlapPageLocators(object):
     BLOCK = ('CSS_SELECTOR', '#nc_1_n1z')
-    CLOSE = ('CSS_SELECTOR', '#ks-content-ks-component126 > div.coin-overlay-content > span')
+    CLOSE = (By.CSS_SELECTOR, '#ks-content-ks-component126 > div.coin-overlay-content > span')

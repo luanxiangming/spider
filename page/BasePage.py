@@ -47,22 +47,22 @@ class BasePage(object):
         try:
             type = element[0]
             value = element[1]
-            if type == "id" or type == "ID" or type == "Id":
+            if type == "ID":
                 elem = self.driver.find_element_by_id(value)
 
-            elif type == "name" or type == "NAME" or type == "Name":
+            elif type == "NAME":
                 elem = self.driver.find_element_by_name(value)
 
-            elif type == "class" or type == "CLASS" or type == "Class":
+            elif type == "CLASS_NAME":
                 elem = self.driver.find_element_by_class_name(value)
 
-            elif type == "link_text" or type == "LINK_TEXT" or type == "Link_text":
+            elif type == "LINK_TEXT":
                 elem = self.driver.find_element_by_link_text(value)
 
-            elif type == "xpath" or type == "XPATH" or type == "Xpath":
+            elif type == "XPATH":
                 elem = self.driver.find_element_by_xpath(value)
 
-            elif type == "css" or type == "CSS" or type == "Css":
+            elif type == "CSS_SELECTOR":
                 elem = self.driver.find_element_by_css_selector(value)
             else:
                 raise NameError("Please correct the type in function parameter")
@@ -78,37 +78,37 @@ class BasePage(object):
         try:
             type = element[0]
             value = element[1]
-            if type == "id" or type == "ID" or type == "Id":
+            if type == "ID":
                 elem = self.wait.until(
                     EC.presence_of_element_located(
                         (By.ID, value)
                     ))
 
-            elif type == "name" or type == "NAME" or type == "Name":
+            elif type == "NAME":
                 elem = self.wait.until(
                     EC.presence_of_element_located(
                         (By.NAME, value)
                     ))
 
-            elif type == "class" or type == "CLASS" or type == "Class" or type == "CLASS_NAME":
+            elif type == "CLASS_NAME":
                 elem = self.wait.until(
                     EC.presence_of_element_located(
                         (By.CLASS_NAME, value)
                     ))
 
-            elif type == "link_text" or type == "LINK_TEXT" or type == "Link_text":
+            elif type == "LINK_TEXT":
                 elem = self.wait.until(
                     EC.presence_of_element_located(
                         (By.LINK_TEXT, value)
                     ))
 
-            elif type == "xpath" or type == "XPATH" or type == "Xpath":
+            elif type == "XPATH":
                 elem = self.wait.until(
                     EC.presence_of_element_located(
                         (By.XPATH, value)
                     ))
 
-            elif type == "css" or type == "CSS" or type == "Css" or type == "CSS_SELECTOR":
+            elif type == "CSS_SELECTOR":
                 elem = self.wait.until(
                     EC.presence_of_element_located(
                         (By.CSS_SELECTOR, value)
@@ -132,22 +132,22 @@ class BasePage(object):
         try:
             type = element[0]
             value = element[1]
-            if type == "id" or type == "ID" or type == "Id":
+            if type == "ID":
                 elem = self.driver.find_elements_by_id(value)
 
-            elif type == "name" or type == "NAME" or type == "Name":
+            elif type == "NAME":
                 elem = self.driver.find_elements_by_name(value)
 
-            elif type == "class" or type == "CLASS" or type == "Class":
+            elif type == "CLASS_NAME":
                 elem = self.driver.find_elements_by_class_name(value)
 
-            elif type == "link_text" or type == "LINK_TEXT" or type == "Link_text":
+            elif type == "LINK_TEXT":
                 elem = self.driver.find_elements_by_link_text(value)
 
-            elif type == "xpath" or type == "XPATH" or type == "Xpath":
+            elif type == "XPATH":
                 elem = self.driver.find_elements_by_xpath(value)
 
-            elif type == "css" or type == "CSS" or type == "Css":
+            elif type == "CSS_SELECTOR":
                 elem = self.driver.find_elements_by_css_selector(value)
             else:
                 raise NameError("Please correct the type in function parameter")
@@ -163,37 +163,37 @@ class BasePage(object):
         try:
             type = element[0]
             value = element[1]
-            if type == "id" or type == "ID" or type == "Id":
+            if type == "ID":
                 elem = self.wait.until(
                     EC.presence_of_all_elements_located(
                         (By.ID, value)
                     ))
 
-            elif type == "name" or type == "NAME" or type == "Name":
+            elif type == "NAME":
                 elem = self.wait.until(
                     EC.presence_of_all_elements_located(
                         (By.NAME, value)
                     ))
 
-            elif type == "class" or type == "CLASS" or type == "Class" or type == "CLASS_NAME":
+            elif type == "CLASS_NAME":
                 elem = self.wait.until(
                     EC.presence_of_all_elements_located(
                         (By.CLASS_NAME, value)
                     ))
 
-            elif type == "link_text" or type == "LINK_TEXT" or type == "Link_text":
+            elif type == "LINK_TEXT":
                 elem = self.wait.until(
                     EC.presence_of_all_elements_located(
                         (By.LINK_TEXT, value)
                     ))
 
-            elif type == "xpath" or type == "XPATH" or type == "Xpath":
+            elif type == "XPATH":
                 elem = self.wait.until(
                     EC.presence_of_all_elements_located(
                         (By.XPATH, value)
                     ))
 
-            elif type == "css" or type == "CSS" or type == "Css" or type == "CSS_SELECTOR":
+            elif type == "CSS_SELECTOR":
                 elem = self.wait.until(
                     EC.presence_of_all_elements_located(
                         (By.CSS_SELECTOR, value)
