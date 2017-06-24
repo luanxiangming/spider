@@ -8,6 +8,7 @@ from utils import LogUtil
 from utils import common
 from utils.TestCaseInfo import TestCaseInfo
 from utils.TestReport import TestReport
+import config
 
 
 class TestTaobao(unittest.TestCase):

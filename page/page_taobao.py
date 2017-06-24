@@ -78,11 +78,9 @@ class LoginPage(BasePage):
         self.type(password, auth.TAOBAO_PASS)
 
         time.sleep(2)
-        if self.check_auth_block():
-            self.click(confirm)
+        self.click(confirm) if self.check_auth_block() else print('登陆验证失败')
 
     def check_auth_block(self):
-        flag = 0
         block = self.is_element_visible(LoginPageLocators.AUTH_BLOCK)
         if block:
             print("登陆出现滑动条")
@@ -92,11 +90,8 @@ class LoginPage(BasePage):
             actions.drag_and_drop_by_offset(self.findElement(LoginPageLocators.AUTH_BLOCK), 298, 0)
             actions.perform()
             time.sleep(2)
-            if '验证通过' in self.page_source():
-                flag = 1
-                return flag
-            else:
-                return flag
+            flag = 1 if '验证通过' in self.page_source() else 0
+            return flag
         else:
             print("登陆没有滑动条，直接登陆")
             flag = 1
@@ -112,21 +107,32 @@ class CheckinPage(BasePage):
 
     def check_in(self):
         self.refresh()
-        if self.check_block():
-            print('成功签到')
+        self.close_block()
+        try:
+            check = self.wait.until(
+                EC.element_to_be_clickable(
+                    CheckinPageLocators.CHECK
+                )
+            )
+        except ValueError:
+            print("没有签到按钮")
+        else:
+            self.click(check)
+            time.sleep(10)
 
     def close_block(self):
-        close = self.wait.until(
-            EC.element_to_be_clickable(
-                CheckinPageLocators.CLOSE
+        try:
+            close = self.wait.until(
+                EC.element_to_be_clickable(
+                    CheckinPageLocators.CLOSE
+                )
             )
-        )
-        if close:
-            print("签到出现滑动条")
+        except ValueError:
+            print("签到没有滑动条")
+        else:
             self.click(close)
 
     def check_block(self):
-        flag = 0
         time.sleep(5)
         block = self.is_element_visible(CheckinPageLocators.BLOCK)
         if block:
@@ -137,11 +143,8 @@ class CheckinPage(BasePage):
             actions.drag_and_drop_by_offset(block, 258, 0)
             actions.perform()
             time.sleep(2)
-            if '验证通过' in self.page_source():
-                flag = 1
-                return flag
-            else:
-                return flag
+            flag = 1 if '验证通过' in self.page_source() else 0
+            return flag
         else:
             print("签到没有滑动条，直接签到")
             flag = 1
