@@ -6,7 +6,8 @@ class MainPageLocators(object):
     LOGIN = ('CSS_SELECTOR', r'#J_SiteNavLogin > div.site-nav-menu-hd > div.site-nav-sign > a.h')
     USER_NICK = ('CSS_SELECTOR', r'#J_SiteNavLogin > div.site-nav-menu-hd > div.site-nav-user > a.site-nav-login-info-nick')
     CHECK_IN = ('CSS_SELECTOR', r'body > div.screen-outer.clearfix > div.col-right > div.tbh-member.J_Module > div > div.member-bd > p > a.J_MemberPunch.h')
-
+    MY = ('CSS_SELECTOR', '#J_SiteNavLogin > div.site-nav-menu-hd > div.site-nav-user > a.site-nav-login-info-nick')
+    ACCOUNT = ('CSS_SELECTOR', '#J_SiteNavLoginPanel > div > div.site-nav-user-info > p.site-nav-user-operate > a:nth-child(1)')
 
 class SearchResultsPageLocators(object):
     """A class for search results locators. All search results locators should come here"""
@@ -22,7 +23,8 @@ class LoginPageLocators(object):
 
 
 class CheckinPageLocators(object):
-    COIN = ('CSS_SELECTOR', r'#content > div.coin-layout > div.coin-wrapper > div.side-bar > div > div.coin-panel > div.tjb-wrapper.tjb-login > div.my-coin > p.lg-2.info.J_Coin > a')
+    COIN = ('CSS_SELECTOR', r'#content > div.coin-layout > div.coin-wrapper > div.side-bar > div > div.coin-panel > div.tjb-wrapper.tjb-login > div.my-coin > p.lg-1.info.J_Coin > a')
     BLOCK = ('CSS_SELECTOR', '#nc_1_n1z')
-    CLOSE = (By.CSS_SELECTOR, '#ks-content-ks-component126 > div.coin-overlay-content > span')
+    CLOSE1 = (By.CSS_SELECTOR, '#ks-content-ks-component118 > div.coin-overlay-content > span')
+    CLOSE2 = (By.CSS_SELECTOR, '#ks-content-ks-component210 > div.coin-overlay-content > span')
     CHECK = (By.CSS_SELECTOR, r'#content > div.coin-layout > div.coin-wrapper > div.side-bar > div > div.coin-panel > div.tjb-wrapper.tjb-login > div.my-btns > a.btn.login-btn.J_GoTodayBtn')

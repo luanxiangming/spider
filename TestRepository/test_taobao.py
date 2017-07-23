@@ -8,7 +8,6 @@ from utils import LogUtil
 from utils import common
 from utils.TestCaseInfo import TestCaseInfo
 from utils.TestReport import TestReport
-import config
 
 
 class TestTaobao(unittest.TestCase):
@@ -79,6 +78,7 @@ class TestTaobao(unittest.TestCase):
 	# 	driver.forward()
 
 	""" A sample test class to show how page object works """
+
 	def test_search(self):
 		driver = self.driver
 		try:
@@ -128,7 +128,19 @@ class TestTaobao(unittest.TestCase):
 
 			checkin_page = page.CheckinPage(driver)
 			checkin_page.check_in()
-			assert '3640' in checkin_page.get_coin_balance()
+			assert '550' in checkin_page.get_coin_balance()
+		except Exception as e:
+			self.testCaseInfo.errorinfo = repr(e)
+			LogUtil.log(('Got error: ' + repr(e)))
+		else:
+			self.testCaseInfo.result = 'Pass'
+
+	def test_mytaobao(self):
+		driver = self.driver
+		self.test_login(driver)
+		try:
+			main_page = page.MainPage(driver)
+			main_page.goto_profile_page()
 		except Exception as e:
 			self.testCaseInfo.errorinfo = repr(e)
 			LogUtil.log(('Got error: ' + repr(e)))
