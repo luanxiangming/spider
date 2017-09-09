@@ -46,7 +46,6 @@ class MainPage(BasePage):
 		actions.click(account).perform()
 		# ActionChains(self.driver).move_to_element(my).click(account).perform()
 
-
 	def get_nick_name(self):
 		elem = self.waitUntilFindElement(MainPageLocators.USER_NICK)
 		return elem.text
