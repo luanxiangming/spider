@@ -1,9 +1,8 @@
 import os
 import re
-import xlrd
-import xlwt
 
 import pymysql.cursors
+import xlwt
 from pyquery import PyQuery as pq
 from selenium import webdriver
 from selenium.common.exceptions import TimeoutException
