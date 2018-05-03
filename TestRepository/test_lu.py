@@ -1,16 +1,20 @@
 import unittest
 import sys
+
+from selenium import webdriver
+
 from utils import LogUtil
 from utils import common
 from utils.TestCaseInfo import TestCaseInfo
 from utils.TestReport import TestReport
 
-sys.path.append("..")
+# sys.path.append("..")
 from page import page_lu as page
 
 
 class TestLu(unittest.TestCase):
 	def setUp(self):
+		self.driver = webdriver.Chrome()
 		self.base_url = 'http://www.lu.com'
 		self.testCaseInfo = TestCaseInfo(id='2', name=self.__str__(), owner='Oliver')
 		self.testReport = TestReport()
@@ -21,11 +25,12 @@ class TestLu(unittest.TestCase):
 
 	# @unittest.skip("skip test_login")
 	def test_login(self):
+		driver = self.driver
 		try:
-			main_page = page.MainPage()
+			main_page = page.MainPage(driver)
 			main_page.open(self.base_url)
 			main_page.goto_login_page()
-			login_page = page.LoginPage()
+			login_page = page.LoginPage(page)
 			login_page.authenticate()
 			main_page.verify_login()
 		except Exception as e:

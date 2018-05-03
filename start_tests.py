@@ -33,6 +33,8 @@ class RunTests(object):
 
 
 if __name__ == '__main__':
+	# verbosity参数可以控制执行结果的输出，
+	# 0是简单报告、1是一般报告、2是详细报告
 	# runner = unittest.TextTestRunner(verbosity=2)
 	# runner = ReportUtil.get_html_report
 	# runner.run(create_suite())
